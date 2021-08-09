@@ -10,6 +10,7 @@ Whole thing consists from several parts:
 
 ### Run
 Ready-to-use docker image:<br>
+https://hub.docker.com/r/vadimpy/solexample
 
 First terminal (run localnet Solana blockchain):<br>
 ```bash
