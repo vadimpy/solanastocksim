@@ -10,16 +10,15 @@ Whole thing consists from several parts:
 
 ### Run
 Ready-to-use docker image:<br>
+https://hub.docker.com/r/vadimpy/solexample
 
 First terminal (run localnet Solana blockchain):<br>
 ```bash
-$ cd solanastocksim
 $ solana-test-validator -r
 ```
 
 Second terminal (listen its logs):<br>
 ```bash
-$ cd solanastocksim
 $ solana logs
 ```
 
@@ -27,7 +26,6 @@ Third terminal (deploy on-chain programs and run exmaples notebook):<br>
 ```bash
 $ cd solanastocksim/stock_backend
 $ ./deploy.sh
-$ source ~/venv/bin/activate
 $ jupyter-notebook
 ```
 Run example.ipynb cell-by-cell<br>
@@ -42,9 +40,17 @@ $ cargo +nightly build --target-dir ../build
 #### Build on-chain programs:
 ```bash
 $ cd solanastocksim/stock_backend
-$ cargo build-bpf --bpf-out-dir build
+$ cargo +nightly build-bpf --bpf-out-dir build
+```
+Configure paths in `solanastocksim/cfg.yml` (for Docker it is already configured)
+
+### Docker commands:
+Run Jupyter notebook
+```bash
+sudo docker run --name vadimpy/solexample -it -p 8888:8888 -a stdin -a stdout -i -t vadimpy/solexample:latest /bin/bash
+cd solanastocksim
+jupyter notebook --ip 0.0.0.0 --allow-root
 ```
 
 
-Configure paths in `solanastocksim/cfg.yml`
 
