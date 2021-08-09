@@ -12,28 +12,38 @@ Whole thing consists from several parts:
 Ready-to-use docker image:<br>
 
 First terminal (run localnet Solana blockchain):<br>
-`$ cd solanastocksim`<br>
-`$ solana-test-validator -r`<br>
+```bash
+$ cd solanastocksim
+$ solana-test-validator -r
+```
 
 Second terminal (listen its logs):<br>
-`$ cd solanastocksim`<br>
-`$ solana logs`<br>
+```bash
+$ cd solanastocksim
+$ solana logs
+```
 
 Third terminal (deploy on-chain programs and run exmaples notebook):<br>
-`$ cd solanastocksim/stock_backend`<br>
-`$ ./deploy.sh`<br>
-`$ source ~/venv/bin/activate`<br>
-`$ jupyter-notebook`<br>
+```bash
+$ cd solanastocksim/stock_backend
+$ ./deploy.sh
+$ source ~/venv/bin/activate
+$ jupyter-notebook
+```
 Run example.ipynb cell-by-cell<br>
 Be careful! Recommended system requirements for Solana's localnet are 24 logical CPUs and 64GB of memory
 
 ### Build
 #### Build client:
-`$ cd solanastocksim/stock_frontend/rust_client`<br>
-`$ cargo +nightly build --target-dir ../build`<br>
+```bash
+$ cd solanastocksim/stock_frontend/rust_client
+$ cargo +nightly build --target-dir ../build
+```
 #### Build on-chain programs:
-`$ cd solanastocksim/stock_backend`<br>
-`$ cargo build-bpf --bpf-out-dir build`<br>
+```bash
+$ cd solanastocksim/stock_backend
+$ cargo build-bpf --bpf-out-dir build
+```
 
 
 Configure paths in `solanastocksim/cfg.yml`
