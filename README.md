@@ -14,13 +14,11 @@ https://hub.docker.com/r/vadimpy/solexample
 
 First terminal (run localnet Solana blockchain):<br>
 ```bash
-$ cd solanastocksim
 $ solana-test-validator -r
 ```
 
 Second terminal (listen its logs):<br>
 ```bash
-$ cd solanastocksim
 $ solana logs
 ```
 
