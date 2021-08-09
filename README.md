@@ -47,7 +47,7 @@ Configure paths in `solanastocksim/cfg.yml` (for Docker it is already configured
 ### Docker commands:
 Run Jupyter notebook
 ```bash
-sudo docker run --name ssim -it -p 8888:8888 -a stdin -a stdout -i -t ssim:latest /bin/bash
+sudo docker run --name vadimpy/solexample -it -p 8888:8888 -a stdin -a stdout -i -t vadimpy/solexample:latest /bin/bash
 cd solanastocksim
 jupyter notebook --ip 0.0.0.0 --allow-root
 ```
