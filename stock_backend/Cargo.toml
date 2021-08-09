@@ -1,9 +1,11 @@
-[workspace]
+cargo-features = ["resolver"]
 
-resolver = "2"
+[workspace]
 
 members = [
     "sender",
     "setter",
     "messenger"
 ]
+
+
