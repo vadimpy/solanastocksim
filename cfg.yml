@@ -1,0 +1,7 @@
+---
+solana_cfg_path: "/home/vadimpy/.config/solana/cli/config.yml"
+client_type: "localnet"
+programs:
+  sender : "/home/vadimpy/Documents/solanastocksim/stock_backend/build/sender-keypair.json"
+  messenger : "/home/vadimpy/Documents/solanastocksim/stock_backend/build/messenger-keypair.json"
+  setter : "/home/vadimpy/Documents/solanastocksim/stock_backend/build/setter-keypair.json"

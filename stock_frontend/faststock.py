@@ -1,6 +1,7 @@
 import heapq
 import random
-from client import SolanaClient, gen_private_key
+from stock_frontend.rust_client import SolanaClient, gen_keypair
+# from client import SolanaClient, gen_private_key
 
 class Stock:
 
@@ -32,9 +33,9 @@ class Stock:
     __vdoll_cap = 0
     __next_order_id = 0
 
-    def __init__(self, log_fname=None):
+    def __init__(self, client_cfg, log_fname=None):
         random.seed()
-        self.__solana = SolanaClient()
+        self.__solana = SolanaClient(client_cfg)
         self.__sell_orders = []
         self.__buy_orders  = []
         self.__log = None
@@ -103,9 +104,9 @@ class Stock:
         self.__accs_table[seller_id].doll += price * amount
         self.__accs_table[seller_id].vdoll -= amount
 
-        from_acc = self.__id2sol_acc[seller_id]
-        to_acc   = self.__id2sol_acc[buyer_id]
-        self.__solana.send_lamps(from_acc, to_acc, amount)
+        from_acc = self.__id2sol_acc[seller_id][32:] # extract public key from keypair
+        to_acc   = self.__id2sol_acc[buyer_id][32:]
+        self.__solana.send_lamports(from_acc, to_acc, amount)
 
         self.__accs_table[seller_id].notifier(order_id)
 
@@ -126,9 +127,9 @@ class Stock:
         self.__accs_table[seller_id].doll += price * amount
         self.__accs_table[seller_id].vdoll -= amount
 
-        from_acc = self.__id2sol_acc[seller_id]
-        to_acc   = self.__id2sol_acc[buyer_id]
-        self.__solana.send_lamps(from_acc, to_acc, amount)
+        from_acc = self.__id2sol_acc[seller_id][32:]
+        to_acc   = self.__id2sol_acc[buyer_id][32:]
+        self.__solana.send_lamports(from_acc, to_acc, amount)
 
         self.__accs_table[buyer_id].notifier(order_id)
 
@@ -173,7 +174,8 @@ class Stock:
 
         self.__next_acc_id += 1
 
-        solana_acc = self.__solana.create_account(gen_private_key(), vdoll)
+        solana_acc = bytes(gen_keypair()) # pyo3 rust crate should return bytes, but accidently it returns list
+        self.__solana.create_account(solana_acc, vdoll)
         self.__id2sol_acc[id_] = solana_acc
 
         return (id_, balance_method, buy_method, sell_method, place_buy_method, place_sell_method)
@@ -204,7 +206,7 @@ class Stock:
 
     @property
     def last_price(self):
-        return self.__history[-1]    
+        return self.__history[-1]
 
     def dump_history(self):
         self.__dump(f"\nPrice history: {self.history}\n")
@@ -212,5 +214,6 @@ class Stock:
     def dump_solana_balances(self):
         self.__dump(f"\nSolana balances:\n")
         for id_, acc in self.__id2sol_acc.items():
-            balance = self.__solana.get_balance(acc.public_key())
+            pub_key = acc[32:]
+            balance = self.__solana.get_balance(pub_key)
             self.__dump(f"\t{id_} : {balance}\n")

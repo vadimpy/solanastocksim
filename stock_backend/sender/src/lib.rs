@@ -5,7 +5,7 @@ use solana_program::{
     entrypoint::ProgramResult,
     msg,
     pubkey::Pubkey,
-    log::sol_log_params
+    // log::sol_log_params
 };
 
 #[derive(BorshDeserialize, Debug)]
@@ -20,10 +20,9 @@ pub fn process_instruction(
     instruction_data: &[u8],
 ) -> ProgramResult {
 
-    sol_log_params(accounts, instruction_data);
+    msg!("Sender is called!");
 
-    let account_info_iter = &mut accounts.iter();
-    
+    let account_info_iter = &mut accounts.iter();    
 
     let source_info = next_account_info(account_info_iter)?;
     let destination_info = next_account_info(account_info_iter)?;
@@ -35,8 +34,8 @@ pub fn process_instruction(
     **destination_info.try_borrow_mut_lamports()? += amount;
 
     msg!("Transaction:");
-    msg!("\tfrom: ");
-    msg!("\tto: ");
+    msg!("\tfrom: {:?}", source_info.key);
+    msg!("\tto: {:?}", destination_info.key);
     msg!("\tamount: {}", amount);
 
     Ok(())

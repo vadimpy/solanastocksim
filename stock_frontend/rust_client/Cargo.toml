@@ -1,0 +1,30 @@
+[package]
+name = "client"
+version = "1.0.0"
+description = "RPC client for stocksim"
+authors = ["Shirokinskiy Vadim <vadim4biz@gmail.com>"]
+license = "Apache-2.0"
+edition = "2018"
+resolver = "2"
+
+[dependencies]
+rand = "0.8.4"
+solana-sdk = "1.7.9"
+solana-client = "1.7.9"
+solana-program = "=1.7.9"
+serde = "1.0.127"
+serde_yaml = "0.8.13"
+serde_derive = "1.0.127"
+
+[dependencies.pyo3]
+version = "0.14.1"
+features = ["extension-module"]
+
+[lib]
+name = "client"
+crate-type = ["cdylib"]
+path = "./client.rs"
+
+# [[bin]]
+# name = "main"
+# path = "./main.rs"
